@@ -38,7 +38,7 @@ interface IPriceData {
 }
 
 interface PriceProps {
-  coinId: string;
+  coinId: string
 }
 
 const H1 = styled.div`
@@ -46,47 +46,60 @@ const H1 = styled.div`
   font-weight: bold;
 `
 
-function Price({coinId}: PriceProps) {
-  const {isLoading, data: priceData} = useQuery<IPriceData>(["price", coinId], () =>
-    fetchCoinTickers(coinId), 
+function Price({ coinId }: PriceProps) {
+  const { isLoading, data: priceData } = useQuery<IPriceData>(
+    ['price', coinId],
+    () => fetchCoinTickers(coinId),
     {
       refetchInterval: 10000,
-    }
+    },
   )
 
-  const mappedPriceData = [priceData?.quotes.USD.percent_change_15m, priceData?.quotes.USD.percent_change_30m, priceData?.quotes.USD.percent_change_1h, priceData?.quotes.USD.percent_change_6h, priceData?.quotes.USD.percent_change_12h, priceData?.quotes.USD.percent_change_24h, priceData?.quotes.USD.percent_change_30d, priceData?.quotes.USD.percent_change_1y]
+  const mappedPriceData = [
+    priceData?.quotes.USD.percent_change_15m,
+    priceData?.quotes.USD.percent_change_30m,
+    priceData?.quotes.USD.percent_change_1h,
+    priceData?.quotes.USD.percent_change_6h,
+    priceData?.quotes.USD.percent_change_12h,
+    priceData?.quotes.USD.percent_change_24h,
+    priceData?.quotes.USD.percent_change_30d,
+    priceData?.quotes.USD.percent_change_1y,
+  ]
 
   return (
-    <div style={{ backgroundColor: "white"}}>
+    <div style={{ backgroundColor: 'white' }}>
       <H1>percent_change</H1>
       {isLoading ? (
-        "Loading price...") : <ApexChart 
-        type='bar'
-        series={[ {data: mappedPriceData} ] as unknown as number[]}
-        options={{
-          chart: {
-            width: 500,
-            height: 500
-          },
-          plotOptions: {
-            bar: {
-              borderRadius: 4,
-              horizontal: true,
-            }
-          },
-          xaxis: {
-            labels: { show: false },
-            categories: [ "15m", "30m", "1h", "6h", "12h", "24h", "30d", "1y"],
-          },
-          fill: {
-            // 그라데이션
-            type: 'gradient',
-            gradient: { gradientToColors: ['#0be881'], stops: [0, 100] },
-          },
-        }}
-        />}
+        'Loading price...'
+      ) : (
+        <ApexChart
+          type="bar"
+          series={([{ data: mappedPriceData }] as unknown) as number[]}
+          options={{
+            chart: {
+              width: 500,
+              height: 500,
+            },
+            plotOptions: {
+              bar: {
+                borderRadius: 4,
+                horizontal: true,
+              },
+            },
+            xaxis: {
+              labels: { show: false },
+              categories: ['15m', '30m', '1h', '6h', '12h', '24h', '30d', '1y'],
+            },
+            fill: {
+              // 그라데이션
+              type: 'gradient',
+              gradient: { gradientToColors: ['#0be881'], stops: [0, 100] },
+            },
+          }}
+        />
+      )}
     </div>
   )
 }
-  
-export default Price;
+
+export default Price

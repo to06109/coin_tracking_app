@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {Helmet} from "react-helmet"
+import { Helmet } from 'react-helmet'
 import {
   Switch,
   Route,
@@ -38,7 +38,7 @@ const Overview = styled.div`
   padding: 10px 20px;
   border-radius: 10px;
 `
-const OverviewItem = styled.div`  
+const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,7 +90,7 @@ const BackBtn = styled.button`
   color: ${(props) => props.theme.textColor};
   background-color: ${(props) => props.theme.viewColor};
   border: 2px solid ${(props) => props.theme.textColor};
-  `
+`
 
 interface RouteState {
   name: string
@@ -172,15 +172,16 @@ function Coin() {
     {
       // query를 5초마다 fetch
       refetchInterval: 5000,
-    }
-    
+    },
   )
   const loading = infoLoading || tickersLoading
 
   return (
     <Container>
       <Helmet>
-        <title>{state?.name ? state.name : loading ? 'Loading..' : infoData?.name}</title>
+        <title>
+          {state?.name ? state.name : loading ? 'Loading..' : infoData?.name}
+        </title>
       </Helmet>
       <Header>
         <Title>
@@ -237,10 +238,11 @@ function Coin() {
         </>
       )}
       <BackBtn>
-    <Link style={{display: "block"}} to={{ pathname: `/`}}>Back</Link>
-    </BackBtn>
+        <Link style={{ display: 'block' }} to={{ pathname: `/` }}>
+          Back
+        </Link>
+      </BackBtn>
     </Container>
-    
   )
 }
 

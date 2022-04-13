@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { fetchCoins } from './api'
-import {Helmet} from "react-helmet"
+import { Helmet } from 'react-helmet'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { isDarkAtom } from '../atoms'
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -63,7 +65,7 @@ const StyledLink = styled(Link)`
 `
 
 const DarkBtn = styled.button`
-  content: "다크모드";
+  content: '다크모드';
   width: 70px;
   height: 30px;
   border-radius: 50px;
@@ -71,8 +73,7 @@ const DarkBtn = styled.button`
   background-color: ${(props) => props.theme.textColor};
 `
 
-const Overview = styled.div`
-`
+const Overview = styled.div``
 
 interface ICoin {
   id: string
@@ -84,18 +85,15 @@ interface ICoin {
   type: string
 }
 
-interface ICoinsProps {
-  isDark: boolean;
-  // toggleDark 함수의 type
-  toggleDark: () => void;
-}
-
-function Coins({isDark, toggleDark}: ICoinsProps) {
+function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom)
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev)
+  const isDark = useRecoilValue(isDarkAtom)
   // useQuery(query key, fetcher func)
   // useQuery가 isLoading값을 알아서 리턴함
   // fetchCoins가 끝나면 react query는 그 함수의 데이터를 data에 넣어줌
   const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins)
-  
+
   return (
     <Container>
       <Helmet>
@@ -104,8 +102,8 @@ function Coins({isDark, toggleDark}: ICoinsProps) {
       <Header>
         <Title>코인</Title>
         <Overview>
-          <DarkBtn onClick={toggleDark} />
-          { isDark ? <div>Light Mode</div> : <div>Dark Mode</div>}
+          <DarkBtn onClick={toggleDarkAtom}/>
+          {isDark ? <div>Light Mode</div> : <div>Dark Mode</div>}
         </Overview>
       </Header>
       {isLoading ? (
