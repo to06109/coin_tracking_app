@@ -1,27 +1,27 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
-import { fetchCoins } from './api'
-import { Helmet } from 'react-helmet'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { isDarkAtom } from '../atoms'
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { fetchCoins } from "./api";
+import { Helmet } from "react-helmet";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
   // 화면을 크게 했을 때도 모바일화면처럼 요소들이 가운데에 위치함
   max-width: 480px;
   margin: 0 auto;
-`
+`;
 
 const Header = styled.header`
   height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
-const CoinsList = styled.ul``
+const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
@@ -42,58 +42,58 @@ const Coin = styled.li`
       color: ${(props) => props.theme.accentColor};
     }
   }
-`
+`;
 
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
-`
+`;
 
 const Loader = styled.span`
   text-align: center;
   display: block;
-`
+`;
 
 const Img = styled.img`
   width: 35px;
   height: 35px;
   margin-right: 10px;
-`
+`;
 
 const StyledLink = styled(Link)`
   color: rgba(0, 0, 0.5);
-`
+`;
 
 const DarkBtn = styled.button`
-  content: '다크모드';
+  content: "다크모드";
   width: 70px;
   height: 30px;
   border-radius: 50px;
   color: ${(props) => props.theme.bgColor};
   background-color: ${(props) => props.theme.textColor};
-`
+`;
 
-const Overview = styled.div``
+const Overview = styled.div``;
 
 interface ICoin {
-  id: string
-  name: string
-  symbol: string
-  rank: number
-  is_new: boolean
-  is_active: boolean
-  type: string
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  is_new: boolean;
+  is_active: boolean;
+  type: string;
 }
 
 function Coins() {
-  const setDarkAtom = useSetRecoilState(isDarkAtom)
-  const toggleDarkAtom = () => setDarkAtom((prev) => !prev)
-  const isDark = useRecoilValue(isDarkAtom)
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  const isDark = useRecoilValue(isDarkAtom);
   // useQuery(query key, fetcher func)
   // useQuery가 isLoading값을 알아서 리턴함
   // fetchCoins가 끝나면 react query는 그 함수의 데이터를 data에 넣어줌
-  const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins)
-
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  console.log(data);
   return (
     <Container>
       <Helmet>
@@ -102,7 +102,7 @@ function Coins() {
       <Header>
         <Title>코인</Title>
         <Overview>
-          <DarkBtn onClick={toggleDarkAtom}/>
+          <DarkBtn onClick={toggleDarkAtom} />
           {isDark ? <div>Light Mode</div> : <div>Dark Mode</div>}
         </Overview>
       </Header>
@@ -128,7 +128,7 @@ function Coins() {
         </CoinsList>
       )}
     </Container>
-  )
+  );
 }
 
-export default Coins
+export default Coins;
